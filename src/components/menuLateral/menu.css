@@ -1,0 +1,134 @@
+/* menu.css */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.main-sidebar {
+  height: 100vh; /* Ocupa toda la altura de la pantalla */
+  width: 250px; /* Ancho del sidebar */
+  position: fixed; /* Fija el sidebar en la pantalla */
+  top: 0;
+  left: 0;
+  background-color: #343a40; /* Color de fondo oscuro */
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease; /* Transición suave al colapsar */
+}
+
+.main-sidebar.collapsed {
+  width: 60px; /* Ancho del menú colapsado */
+  overflow: hidden; /* Ocultar contenido que exceda el ancho */
+}
+
+.main-sidebar .menu-header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  background-color: #2c2f33; /* Color de fondo más oscuro */
+  color: #fff;
+  cursor: pointer;
+}
+
+.main-sidebar .menu-header i {
+  font-size: 16px;
+  margin-right: 10px;
+}
+
+.main-sidebar .menu-header span {
+  font-size: 16px;
+  transition: opacity 0.3s ease; /* Transición suave para el texto */
+}
+
+.main-sidebar.collapsed .menu-header span {
+  display: none; /* Ocultar el texto del encabezado al colapsar */
+}
+
+.user-panel {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  color: #fff;
+  transition: opacity 0.3s ease;
+}
+
+.user-panel .image {
+  margin-right: 1rem;
+}
+
+.user-panel .image img {
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+}
+
+.user-panel .info {
+  flex: 1;
+}
+
+.user-panel .info a {
+  color: #fff;
+  text-decoration: none;
+}
+
+.main-sidebar.collapsed .user-panel .info {
+  display: none; /* Ocultar la información del usuario al colapsar */
+}
+
+.sidebar-menu {
+  flex: 1;
+  padding: 1rem;
+  overflow-y: auto; /* Permite el desplazamiento vertical si el contenido es demasiado grande */
+}
+
+.sidebar-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu ul li {
+  margin-bottom: 1rem;
+}
+
+.sidebar-menu ul li a {
+  color: #c2c7d0;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: padding 0.3s ease; /* Transición suave para el espaciado */
+}
+
+.sidebar-menu ul li a .nav-icon {
+  margin-right: 0.5rem;
+  font-size: 18px; /* Tamaño del ícono */
+}
+
+.sidebar-menu ul li a p {
+  margin-left: 0;
+  transition: opacity 0.3s ease; /* Transición suave para el texto */
+}
+
+.main-sidebar.collapsed .sidebar-menu ul li a p {
+  display: none; /* Ocultar el texto de los enlaces al colapsar */
+}
+
+.logout {
+  padding: 1rem;
+  color: #c2c7d0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  background-color: #2c2f33; /* Color de fondo más oscuro */
+  margin-top: auto; /* Empuja la sección de cerrar sesión hacia la parte inferior */
+  width: 100%; /* Asegura que ocupe todo el ancho */
+}
+
+.logout .nav-icon {
+  margin-right: 0.5rem;
+}
+
+.main-sidebar.collapsed .logout p {
+  display: none; /* Ocultar el texto de cerrar sesión al colapsar */
+}
