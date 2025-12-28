@@ -1,0 +1,40 @@
+/* navbar.css: Fija la altura de la barra de navegación y evita que cambie con el contenido */
+
+.navbar-custom {
+  min-height: 64px;
+  height: 64px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.navbar .container-fluid {
+  min-height: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar .navbar-brand,
+.navbar .nav-link {
+  line-height: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 991px) {
+  .navbar-custom {
+    min-height: 56px;
+    height: 56px;
+  }
+  .navbar .container-fluid {
+    min-height: 56px;
+    height: 56px;
+  }
+  .navbar .navbar-brand,
+  .navbar .nav-link {
+    line-height: 56px;
+    height: 56px;
+  }
+}

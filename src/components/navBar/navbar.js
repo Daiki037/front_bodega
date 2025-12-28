@@ -30,7 +30,12 @@ function NavBar() {
       style={divStyle}
     >
       <div className='container-fluid'>
-        <a className='navbar-brand' href='/' style={linkStyle}>
+        <a className='navbar-brand d-flex align-items-center' href='/' style={linkStyle}>
+            <img
+              src={require('../../imagenes/logo 1 CESUN corto.png')}
+              alt='Logo'
+              style={{ height: '48px', marginRight: '14px' }}
+            />
           Inicio
         </a>
         <button
@@ -46,6 +51,16 @@ function NavBar() {
         </button>
         <div className='collapse navbar-collapse' id='navbarNav'>
           <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
+            <li className='nav-item'>
+              <Link className='nav-link' to='/about' style={linkStyle}>
+                Acerca de
+              </Link>
+            </li>
+            <li className='nav-item'>
+              <Link className='nav-link' to='/contact' style={linkStyle}>
+                Contacto
+              </Link>
+            </li>
             <li className='nav-item'>
               <a
                 className='nav-link'
