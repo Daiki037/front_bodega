@@ -51,16 +51,20 @@ function NavBar() {
         </button>
         <div className='collapse navbar-collapse' id='navbarNav'>
           <ul className='navbar-nav me-auto mb-2 mb-lg-0'>
-            <li className='nav-item'>
+            
+            {/* <li className='nav-item'>
               <Link className='nav-link' to='/about' style={linkStyle}>
                 Acerca de
               </Link>
-            </li>
+            </li> 
+            
             <li className='nav-item'>
               <Link className='nav-link' to='/contact' style={linkStyle}>
                 Contacto
               </Link>
             </li>
+              */}
+
             <li className='nav-item'>
               <a
                 className='nav-link'

@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import ModalDocumentos from './ModalDocumentos';
 import { saveAs } from 'file-saver';
-import ModalReportes from './ModalReportes';
-import ModalNoticias from './ModalNoticias';
+// import ModalReportes from './ModalReportes';
+// import ModalNoticias from './ModalNoticias';
 
 import NavBar from '../navBar/navbar';
 import imagen1 from '../../imagenes/udenar.png';
@@ -23,10 +23,11 @@ const images = [
 ];
 
 const Home = () => {
+  const [documentos, setDocumentos] = useState([]);
   const [current, setCurrent] = useState(0);
   const [modalOpen, setModalOpen] = useState(false);
-  const [modalReportesOpen, setModalReportesOpen] = useState(false);
-  const [modalNoticiasOpen, setModalNoticiasOpen] = useState(false);
+  // const [modalReportesOpen, setModalReportesOpen] = useState(false);
+  // const [modalNoticiasOpen, setModalNoticiasOpen] = useState(false);
   const [modalContactoOpen, setModalContactoOpen] = useState(false);
   const noticias = [
     {
@@ -60,6 +61,16 @@ const Home = () => {
     }, 2000);
     return () => clearInterval(interval);
   }, []);
+
+  // Consultar documentos al abrir el modal
+  useEffect(() => {
+    if (modalOpen) {
+      fetch('http://localhost:3002/documentos')
+        .then(res => res.json())
+        .then(data => setDocumentos(data))
+        .catch(() => setDocumentos([]));
+    }
+  }, [modalOpen]);
   return (
     <>
       <NavBar />
@@ -110,49 +121,52 @@ const Home = () => {
             <p>Sube, gestiona y consulta documentos institucionales.</p>
             <button className="dashboard-btn" onClick={() => setModalOpen(true)}>Ir a Documentos</button>
           </div>
+          {/*
           <div className="dashboard-card">
             <h3>Reportes</h3>
             <p>Accede a reportes y estadísticas relevantes.</p>
             <button className="dashboard-btn" onClick={() => setModalReportesOpen(true)}>Ver Reportes</button>
           </div>
+          */}
           <div className="dashboard-card">
             <h3>Contacto</h3>
             <p>¿Tienes dudas o sugerencias? Contáctanos aquí.</p>
             <button className="dashboard-btn" onClick={() => setModalContactoOpen(true)}>Contacto</button>
           </div>
             <ModalContacto isOpen={modalContactoOpen} onClose={() => setModalContactoOpen(false)} />
+          {/*
           <div className="dashboard-card">
             <h3>Noticias</h3>
             <p>Últimas novedades y actualizaciones institucionales.</p>
             <button className="dashboard-btn" onClick={() => setModalNoticiasOpen(true)}>Ver Noticias</button>
           </div>
+          */}
         </div>
       </div>
       <ModalDocumentos isOpen={modalOpen} onClose={() => setModalOpen(false)}>
         <h2>Documentos Institucionales</h2>
         <div className="modal-doc-list">
-          {[
-            { nombre: 'Documento Ejemplo 1.pdf', tipo: 'PDF' },
-            { nombre: 'Documento Ejemplo 2.docx', tipo: 'Word' },
-            { nombre: 'Documento Ejemplo 3.xlsx', tipo: 'Excel' },
-            { nombre: 'Documento Ejemplo 4.pptx', tipo: 'PowerPoint' },
-          ].map((doc, idx) => (
-            <div
-              className="modal-doc-card"
-              key={idx}
-              style={{ cursor: 'pointer' }}
-              onClick={() => {
-                const blob = new Blob([""], { type: "application/octet-stream" });
-                saveAs(blob, doc.nombre);
-              }}
-              title={`Descargar ${doc.nombre}`}
-            >
-              <div className="modal-doc-title">{doc.nombre}</div>
-              <div className="modal-doc-type">{doc.tipo}</div>
-            </div>
-          ))}
+          {documentos.length === 0 ? (
+            <div>No hay documentos disponibles.</div>
+          ) : (
+            documentos.map((nombre, idx) => (
+              <div
+                className="modal-doc-card"
+                key={idx}
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  window.open(`${process.env.REACT_APP_API_URL}/documentos/${encodeURIComponent(nombre)}/download`, '_blank');
+                }}
+                title={`Descargar ${nombre}`}
+              >
+                <div className="modal-doc-title">{nombre}</div>
+                <div className="modal-doc-type">{nombre.split('.').pop().toUpperCase()}</div>
+              </div>
+            ))
+          )}
         </div>
       </ModalDocumentos>
+      {/*
       <ModalReportes isOpen={modalReportesOpen} onClose={() => setModalReportesOpen(false)}>
         <h2>Reportes y Estadísticas</h2>
         <div style={{ width: '100%', maxWidth: 600, margin: '0 auto' }}>
@@ -160,26 +174,9 @@ const Home = () => {
           <img src="https://edit.org/img/blog/n/dhr-1024-plantilla-grafico-barra-simple-editar-online.webp" alt="Gráfico de Barras" style={{width: '100%', maxWidth: 500, display: 'block', margin: '0 auto', borderRadius: 8}} />
         </div>
       </ModalReportes>
-      <ModalNoticias isOpen={modalNoticiasOpen} onClose={() => setModalNoticiasOpen(false)}>
-        <h2>Noticias Institucionales</h2>
-        <div style={{marginTop: '1.5rem', minHeight: 60, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column'}}>
-          <img
-            src={noticias[noticiaActual].imagen}
-            alt={noticias[noticiaActual].texto}
-            style={{width: 220, height: 140, objectFit: 'cover', borderRadius: 10, marginBottom: 18, boxShadow: '0 2px 10px rgba(0,0,0,0.10)'}}
-          />
-          <div style={{fontSize: '1.15rem', fontWeight: 500, textAlign: 'center', marginBottom: 18, minHeight: 40}}>
-            {noticias[noticiaActual].texto}
-          </div>
-          <div style={{display: 'flex', gap: 16}}>
-            <button onClick={anteriorNoticia} style={{background: '#1976d2', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 18px', fontSize: '1rem', cursor: 'pointer'}}>&#8592; Anterior</button>
-            <button onClick={siguienteNoticia} style={{background: '#1976d2', color: '#fff', border: 'none', borderRadius: 6, padding: '6px 18px', fontSize: '1rem', cursor: 'pointer'}}>Siguiente &#8594;</button>
-          </div>
-          <div style={{marginTop: 10, fontSize: '0.95rem', color: '#888'}}>
-            {noticiaActual + 1} de {noticias.length}
-          </div>
-        </div>
-      </ModalNoticias>
+      */}
+      {/* ModalNoticias eliminado */}
+        {/* ModalNoticias eliminado */}
     </>
   );
 };
