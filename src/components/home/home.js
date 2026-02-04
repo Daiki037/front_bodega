@@ -1,18 +1,25 @@
-
 import React, { useState, useEffect } from 'react';
 import ModalDocumentos from './ModalDocumentos';
 import { saveAs } from 'file-saver';
-// import ModalReportes from './ModalReportes';
-// import ModalNoticias from './ModalNoticias';
-
 import NavBar from '../navBar/navbar';
 import imagen1 from '../../imagenes/udenar.png';
 import imagen2 from '../../imagenes/logo 1 CESUN corto.png';
 import imagen3 from '../../imagenes/logo 2 CESUN .png';
-
 import imagen4 from '../../imagenes/logo RPCMP.png';
 import './home.css';
 import ModalContacto from './ModalContacto';
+
+// ...existing code...
+
+
+// Lista de logotipos en public/logos 2
+const logosCisigesco = [
+  'logo ejecutora CISIGESCO png azul.png',
+  'logos CISIGESCO png azul-01.png',
+  'logos CISIGESCO png azul-03.png',
+  'logos CISIGESCO png azul-04.png',
+  'logos CISIGESCO png azul-05.png',
+];
 
 
 const images = [
@@ -29,27 +36,7 @@ const Home = () => {
   // const [modalReportesOpen, setModalReportesOpen] = useState(false);
   // const [modalNoticiasOpen, setModalNoticiasOpen] = useState(false);
   const [modalContactoOpen, setModalContactoOpen] = useState(false);
-  const noticias = [
-    {
-      texto: 'Se inauguró el nuevo laboratorio de informática.',
-      imagen: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=400&q=80'
-    },
-    {
-      texto: 'Convocatoria abierta para becas 2026.',
-      imagen: 'https://images.unsplash.com/photo-1503676382389-4809596d5290?auto=format&fit=crop&w=400&q=80'
-    },
-    {
-      texto: 'Actualización de protocolos de bioseguridad.',
-      imagen: 'https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=400&q=80'
-    },
-    {
-      texto: 'Próximo evento: Semana de la Ciencia.',
-      imagen: 'https://images.unsplash.com/photo-1464983953574-0892a716854b?auto=format&fit=crop&w=400&q=80'
-    }
-  ];
-  const [noticiaActual, setNoticiaActual] = useState(0);
-  const siguienteNoticia = () => setNoticiaActual((prev) => (prev + 1) % noticias.length);
-  const anteriorNoticia = () => setNoticiaActual((prev) => (prev - 1 + noticias.length) % noticias.length);
+  
 
   const nextSlide = () => setCurrent((prev) => (prev + 1) % images.length);
   const prevSlide = () => setCurrent((prev) => (prev - 1 + images.length) % images.length);
@@ -88,59 +75,47 @@ const Home = () => {
             <button className="carousel-btn" onClick={prevSlide} aria-label="Anterior">&#8592;</button>
             <button className="carousel-btn" onClick={nextSlide} aria-label="Siguiente">&#8594;</button>
           </div>
+          {/* Indicadores de puntos sobre la imagen */}
+          <div className="carousel-dots">
+            {images.map((_, idx) => (
+              <button
+                key={idx}
+                style={{
+                  width: 12,
+                  height: 12,
+                  borderRadius: '50%',
+                  margin: '0 4px',
+                  backgroundColor: idx === current ? '#1976d2' : '#bbb',
+                  border: idx === current ? '2px solid #1976d2' : '2px solid #eee',
+                  boxShadow: idx === current ? '0 0 6px #1976d2' : 'none',
+                  cursor: 'pointer',
+                  outline: 'none',
+                  transition: 'background 0.2s, border 0.2s',
+                }}
+                onClick={() => setCurrent(idx)}
+                aria-label={`Ir a la imagen ${idx + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Indicadores de puntos */}
-      <div style={{ display: 'flex', justifyContent: 'center', marginTop: 16 }}>
-        {images.map((_, idx) => (
-          <span
-            key={idx}
-            style={{
-              height: 12,
-              width: 12,
-              margin: '0 6px',
-              backgroundColor: idx === current ? '#1976d2' : '#bbb',
-              borderRadius: '50%',
-              display: 'inline-block',
-              transition: 'background 0.3s',
-              border: idx === current ? '2px solid #1976d2' : '2px solid #eee',
-              boxShadow: idx === current ? '0 0 6px #1976d2' : 'none',
-              cursor: 'pointer',
-            }}
-            onClick={() => setCurrent(idx)}
-            aria-label={`Ir a la imagen ${idx + 1}`}
-          />
-        ))}
-      </div>
 
       <div className="home-container">
         <div className="dashboard-grid">
           <div className="dashboard-card">
             <h3>Documentos</h3>
-            <p>Sube, gestiona y consulta documentos institucionales.</p>
+            <p>Descarga documentos de interes.</p>
             <button className="dashboard-btn" onClick={() => setModalOpen(true)}>Ir a Documentos</button>
           </div>
-          {/*
-          <div className="dashboard-card">
-            <h3>Reportes</h3>
-            <p>Accede a reportes y estadísticas relevantes.</p>
-            <button className="dashboard-btn" onClick={() => setModalReportesOpen(true)}>Ver Reportes</button>
-          </div>
-          */}
+          
           <div className="dashboard-card">
             <h3>Contacto</h3>
             <p>¿Tienes dudas o sugerencias? Contáctanos aquí.</p>
             <button className="dashboard-btn" onClick={() => setModalContactoOpen(true)}>Contacto</button>
           </div>
             <ModalContacto isOpen={modalContactoOpen} onClose={() => setModalContactoOpen(false)} />
-          {/*
-          <div className="dashboard-card">
-            <h3>Noticias</h3>
-            <p>Últimas novedades y actualizaciones institucionales.</p>
-            <button className="dashboard-btn" onClick={() => setModalNoticiasOpen(true)}>Ver Noticias</button>
-          </div>
-          */}
+          
         </div>
       </div>
       <ModalDocumentos isOpen={modalOpen} onClose={() => setModalOpen(false)}>
@@ -166,17 +141,22 @@ const Home = () => {
           )}
         </div>
       </ModalDocumentos>
-      {/*
-      <ModalReportes isOpen={modalReportesOpen} onClose={() => setModalReportesOpen(false)}>
-        <h2>Reportes y Estadísticas</h2>
-        <div style={{ width: '100%', maxWidth: 600, margin: '0 auto' }}>
-          <h4 style={{marginTop: 0}}>Ejemplo: Gráfico de Barras</h4>
-          <img src="https://edit.org/img/blog/n/dhr-1024-plantilla-grafico-barra-simple-editar-online.webp" alt="Gráfico de Barras" style={{width: '100%', maxWidth: 500, display: 'block', margin: '0 auto', borderRadius: 8}} />
+
+      {/* Panel tipo footer para logotipos CISIGESCO */}
+      <footer className="logos-footer-panel">
+        <div className="logos-footer-title">Aliados y Colaboradores</div>
+        <div className="logos-footer-logos">
+          {logosCisigesco.map((logo, idx) => (
+            <img
+              key={idx}
+              src={process.env.PUBLIC_URL + '/logos 2/' + logo}
+              alt={logo.replace(/\.[^/.]+$/, '')}
+              className="logo-footer-img"
+              loading="lazy"
+            />
+          ))}
         </div>
-      </ModalReportes>
-      */}
-      {/* ModalNoticias eliminado */}
-        {/* ModalNoticias eliminado */}
+      </footer>
     </>
   );
 };
