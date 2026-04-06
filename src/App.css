@@ -1,7 +1,4 @@
-.App {
-  text-align: center;
-  background-color: aqua;
-}
+
 
 .App-logo {
   height: 40vmin;
@@ -39,11 +36,7 @@
 }
 
 
-.card {
-  width: 90%; /* Ajusta el ancho de la tarjeta al 100% del contenedor */
-  max-width: 90%; /* Establece un ancho máximo para la tarjeta */
-  /* Estilos adicionales para la tarjeta, como bordes, sombras, etc. */
-}
+
 
 .campo_obligatorio::after {
   content: "*";
@@ -87,17 +80,7 @@
   height: 100%; /* Ocupa toda la altura de la pantalla */
 }
 
-.content-wrapper {
-  margin-left: 250px !important ; /* Espacio para el menú expandido */
-  flex: 1;
-  overflow-y: auto; /* Permite el desplazamiento vertical */
-  padding: 20px;
-  transition: margin-left 0.3s ease; /* Transición suave al cambiar el margen */
-}
 
-.content-wrapper.collapsed {
-  margin-left: 60px !important; /* Espacio para el menú colapsado */
-}
 
 .form-container {
   height: calc(100vh - 40px); /* Ajusta la altura del contenedor del formulario para que ocupe el espacio disponible */

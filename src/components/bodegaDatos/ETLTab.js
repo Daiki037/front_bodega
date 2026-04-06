@@ -124,7 +124,16 @@ const ETLTab = () => {
     };
 
     return (
-        <div>
+        <div
+            style={{                                     
+                fontSize: '14px',
+                whiteSpace: 'pre-wrap',
+                maxHeight: '400px',
+                width: '100%',
+                boxSizing: 'border-box',
+                minWidth: 0
+    }}
+        >
             <h2>Scripts de Bodega de Datos</h2>
             <br/>
             <p>Selecciona un script para ver su contenido:</p>
